@@ -1,2 +1,2 @@
 # StudioItemIK
-Mod that adds FabrikIK controll to single chained Studio Items
+Mod that adds FabrikIK control to single chained Studio Items
