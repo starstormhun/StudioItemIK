@@ -1,8 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Vectrosity;
 using MessagePack;
+using Vectrosity;
+#if KKS
+using static UnityEngine.Vector3;
+#elif KK
+using static StudioItemIK.Extensions;
+#endif
 
 namespace StudioItemIK
 {
@@ -206,7 +210,7 @@ namespace StudioItemIK
                         Plane plane = new Plane(Positions[i + 1] - Positions[i - 1], Positions[i - 1]); //create projectionplane perpendicular to the rotationaxis [i-1]-[i+1]
                         Vector3 projectedPole = plane.ClosestPointOnPlane(Pole.position);   // pole shadow
                         Vector3 projectedBone = plane.ClosestPointOnPlane(Positions[i]);    // bone shadow
-                        float angle = Vector3.SignedAngle(projectedBone - Positions[i - 1], projectedPole - Positions[i - 1], plane.normal); // get angle between Vector Center-boneshadow and Vector Center-poleshadow, where center is [i-1]
+                        float angle = SignedAngle(projectedBone - Positions[i - 1], projectedPole - Positions[i - 1], plane.normal); // get angle between Vector Center-boneshadow and Vector Center-poleshadow, where center is [i-1]
                         Positions[i] = Quaternion.AngleAxis(angle, plane.normal) * (Positions[i] - Positions[i - 1]) + Positions[i - 1]; // get vector from [i-1] to [i], place it onto [i-1] and rotate it with the above angle => now position
                     }
                 }
@@ -219,7 +223,7 @@ namespace StudioItemIK
                         Plane plane = new Plane(Positions[i + 1] - Positions[i - 1], Positions[i - 1]); //create projectionplane perpendicular to the rotationaxis [i-1]-[i+1]
                         Vector3 projectedPole = plane.ClosestPointOnPlane(Pole.position);   // pole shadow
                         Vector3 projectedBone = plane.ClosestPointOnPlane(Positions[i]);    // bone shadow
-                        float angle = Vector3.SignedAngle(projectedBone - Positions[i - 1], projectedPole - Positions[i - 1], plane.normal); // get angle between Vector Center-boneshadow and Vector Center-poleshadow, where center is [i-1]
+                        float angle = SignedAngle(projectedBone - Positions[i - 1], projectedPole - Positions[i - 1], plane.normal); // get angle between Vector Center-boneshadow and Vector Center-poleshadow, where center is [i-1]
                         Positions[i] = Quaternion.AngleAxis(angle, plane.normal) * (Positions[i] - Positions[i - 1]) + Positions[i - 1]; // get vector from [i-1] to [i], place it onto [i-1] and rotate it with the above angle => now position
                     }
                 }

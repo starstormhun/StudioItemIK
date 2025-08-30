@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KKS_StudioItemIK", "ExtendedIK\KKS_StudioItemIK.csproj", "{B0A2C406-3251-4073-9D74-43EFFD864A2E}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core_StudioItemIK", "Core_StudioItemIK\Core_StudioItemIK.shproj", "{B75F51B7-D027-4CC2-9DAD-CE73CC2BECDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KK_StudioItemIK", "KK_StudioItemIK\KK_StudioItemIK.csproj", "{A0A3D78E-B15A-4CBA-85FD-389D321A5F55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KK_StudioItemIK", "KK_StudioItemIK\KK_StudioItemIK.csproj", "{B0D717E8-3D44-4702-BE29-4D0BE2E15253}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KKS_StudioItemIK", "KKS_StudioItemIK\KKS_StudioItemIK.csproj", "{C60068CF-8D68-42AC-AEC6-B598FEBA275D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +15,24 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0A2C406-3251-4073-9D74-43EFFD864A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0A2C406-3251-4073-9D74-43EFFD864A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0A2C406-3251-4073-9D74-43EFFD864A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0A2C406-3251-4073-9D74-43EFFD864A2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0A3D78E-B15A-4CBA-85FD-389D321A5F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0A3D78E-B15A-4CBA-85FD-389D321A5F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0A3D78E-B15A-4CBA-85FD-389D321A5F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0A3D78E-B15A-4CBA-85FD-389D321A5F55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0D717E8-3D44-4702-BE29-4D0BE2E15253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D717E8-3D44-4702-BE29-4D0BE2E15253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D717E8-3D44-4702-BE29-4D0BE2E15253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D717E8-3D44-4702-BE29-4D0BE2E15253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C60068CF-8D68-42AC-AEC6-B598FEBA275D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C60068CF-8D68-42AC-AEC6-B598FEBA275D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C60068CF-8D68-42AC-AEC6-B598FEBA275D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C60068CF-8D68-42AC-AEC6-B598FEBA275D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {973F8BF9-0328-421B-B4B0-17D9692EB891}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Core_StudioItemIK\Core_StudioItemIK.projitems*{b0d717e8-3d44-4702-be29-4d0be2e15253}*SharedItemsImports = 5
+		Core_StudioItemIK\Core_StudioItemIK.projitems*{b75f51b7-d027-4cc2-9dad-ce73cc2becda}*SharedItemsImports = 13
+		Core_StudioItemIK\Core_StudioItemIK.projitems*{c60068cf-8d68-42ac-aec6-b598feba275d}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
