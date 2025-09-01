@@ -19,9 +19,9 @@ namespace StudioItemIK {
             to = Vector3.ProjectOnPlane(to, rotaxis);
             float angle = Vector3.Angle(from, to);
             if ((Quaternion.AngleAxis(angle, rotaxis) * from).normalized == to.normalized) {
-                return Vector3.Dot(rotaxis, axis) < 0 ? angle : -angle;
-            } else {
                 return Vector3.Dot(rotaxis, axis) < 0 ? -angle : angle;
+            } else {
+                return Vector3.Dot(rotaxis, axis) < 0 ? angle : -angle;
             }
         }
 #endif
