@@ -31,6 +31,8 @@ namespace StudioItemIK
     }
     public class FabrikIK : MonoBehaviour
     {
+        internal System.Action<Vector3> scaleAction;
+
         /// <summary>
         /// List of VectorLines used for Gizmos
         /// </summary>
@@ -84,6 +86,7 @@ namespace StudioItemIK
 
         void Awake()
         {
+            scaleAction = delegate { setGizmo(); ResolveIK(); };
             //Init();
         }
         /// <summary>

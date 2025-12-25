@@ -20,8 +20,17 @@ namespace StudioItemIK
         public const string GUID = "org.njaecha.plugins.StudioItemIK";
         public const string Version = "0.2.0";
 
-        internal static bool draw = true;
-        private bool oldDraw = true;
+        private static ConfigEntry<bool> ConfDraw {  get; set; }
+        internal static bool draw {
+            get
+            {
+                return ConfDraw.Value;
+            }
+            set
+            {
+                ConfDraw.Value = value;
+            }
+        }
         private bool ui = false;
         private ConfigEntry<KeyboardShortcut> hotkey;
         private Rect windowRect = new Rect(500, 100, 200, 205);
@@ -62,6 +71,8 @@ namespace StudioItemIK
             hotkey = Config.Bind("StudioItemIK", "Hotkey", defaultShortcut, "Press this key to open UI");
             KKAPI.Studio.StudioAPI.StudioLoadedChanged += registerCtrls;
             StudioSaveLoadApi.RegisterExtraBehaviour<SceneController>(GUID);
+
+            ConfDraw = Config.Bind("StudioItemIK", "Draw Gizmos", true, "Draw the FabrikIK helper lines that help visualise the nodes and poles");
         }
         private void registerCtrls(object sender, EventArgs e)
         {
@@ -105,7 +116,7 @@ namespace StudioItemIK
                 { 
                     if (item.listBones.Count > 3)
                     {
-                        if (validateSekelton(item))
+                        if (validateSkeleton(item))
                         {
                             // test if item already has IK enabled
                             bool hasIK = (item.listBones[item.listBones.Count - 1].guideObject.transformTarget.TryGetComponent<FabrikIK>(out FabrikIK IK));
@@ -184,7 +195,7 @@ namespace StudioItemIK
             }
             void uiNoBones()
             {
-                GUI.Label(new Rect(0, 0, windowRect.width, windowRect.height), "Selected studio item has\nno or too little bones!", textCentered);
+                GUI.Label(new Rect(0, 0, windowRect.width, windowRect.height), "Selected studio item has\ntoo few bones!", textCentered);
             }
             void uiInvalidSkeleton()
             {
@@ -196,7 +207,7 @@ namespace StudioItemIK
 
                 GUI.Label(new Rect(10, 20, 180, 30), currentItemName, textCentered);
 
-                GUI.Label(new Rect(10, 60, 100, 20), $"Chain Legth: {currentItemChainLength}");
+                GUI.Label(new Rect(10, 60, 100, 20), $"Chain Length: {currentItemChainLength}");
                 if(GUI.Button(new Rect(130,60,20,20), "+"))
                 {
                     if (currentItemChainLength != selectedObject.listBones.Count)
@@ -260,10 +271,10 @@ namespace StudioItemIK
                 }
             }
 
-            draw = GUI.Toggle(new Rect(10, 180, 180, 20), draw, "draw gizmos");
-            if (oldDraw != draw)
+            bool drawTemp = GUI.Toggle(new Rect(10, 180, 180, 20), draw, "Draw gizmos");
+            if (drawTemp != draw)
             {
-                oldDraw = draw;
+                draw = drawTemp;
                 if (!draw)
                     if (activeIKs.Count > 0)
                         foreach (FabrikIK IK in activeIKs.Values)
@@ -291,7 +302,7 @@ namespace StudioItemIK
         /// </summary>
         /// <param name="oci">Studioitem to validate</param>
         /// <returns></returns>
-        public bool validateSekelton(OCIItem oci)
+        public bool validateSkeleton(OCIItem oci)
         {
             int boneListLength = oci.listBones.Count;
             Transform pleafBone = oci.listBones[oci.listBones.Count - 1].guideObject.transformTarget;
@@ -319,17 +330,19 @@ namespace StudioItemIK
             {
                 oci.guideObject.changeAmount.onChangePos -= IK.setGizmo;
                 oci.guideObject.changeAmount.onChangeRot -= IK.setGizmo;
-                oci.guideObject.changeAmount.onChangeScale -= delegate { IK.setGizmo(); };
                 oci.guideObject.changeAmount.onChangePos -= IK.ResolveIK;
                 oci.guideObject.changeAmount.onChangeRot -= IK.ResolveIK;
-                oci.guideObject.changeAmount.onChangeScale -= delegate { IK.ResolveIK(); };
+                oci.guideObject.changeAmount.onChangeScale -= IK.scaleAction;
                 foreach (OCIItem oci2 in objectTargetPairs[oci])
                 {
+                    oci2.treeNodeObject.enableChangeParent = true;
+                    treeNodeCtrl.RemoveNode(oci2.treeNodeObject);
                     oci2.treeNodeObject.enableDelete = true;
                     treeNodeCtrl.DeleteNode(oci2.treeNodeObject);
                 }
+
                 objectTargetPairs.Remove(oci);
-                Destroy(IK);
+                DestroyImmediate(IK);
             }
         }
         public void updateFabrikIK(OCIItem oci, int chainLength, int amountPoles)
@@ -410,10 +423,9 @@ namespace StudioItemIK
             FabrikIK IK = leafBone.GetOrAddComponent<FabrikIK>();
             oci.guideObject.changeAmount.onChangePos += IK.setGizmo;
             oci.guideObject.changeAmount.onChangeRot += IK.setGizmo;
-            oci.guideObject.changeAmount.onChangeScale += delegate { IK.setGizmo(); };
             oci.guideObject.changeAmount.onChangePos += IK.ResolveIK;
             oci.guideObject.changeAmount.onChangeRot += IK.ResolveIK;
-            oci.guideObject.changeAmount.onChangeScale += delegate { IK.ResolveIK(); };
+            oci.guideObject.changeAmount.onChangeScale += IK.scaleAction;
             
 
             // create target object
@@ -479,10 +491,9 @@ namespace StudioItemIK
             FabrikIK IK = leafBone.GetOrAddComponent<FabrikIK>();
             oci.guideObject.changeAmount.onChangePos += IK.setGizmo;
             oci.guideObject.changeAmount.onChangeRot += IK.setGizmo;
-            oci.guideObject.changeAmount.onChangeScale += delegate { IK.setGizmo(); };
             oci.guideObject.changeAmount.onChangePos += IK.ResolveIK;
             oci.guideObject.changeAmount.onChangeRot += IK.ResolveIK;
-            oci.guideObject.changeAmount.onChangeScale += delegate { IK.ResolveIK(); };
+            oci.guideObject.changeAmount.onChangeScale += IK.scaleAction;
 
             // create target object
             OCIItem target = targetAndPoles[0];
